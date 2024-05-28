@@ -34,7 +34,7 @@ the function return the neighbors of the vertex
 */
 std::vector<int> getNeighbors(size_t vertex) ;
 
-size_t getSize() ;
+size_t getSize()  const;
 
 
 /*
@@ -57,6 +57,177 @@ bool isNegativeWeightedGraph();
 
 int getWeight(size_t src, size_t dest);
  
+
+
+//function to check if 2 graphs can be added or subtracted
+bool canAddOrSubtract(Graph& other);
+
+// Aritmetic operators
+/*
+@brief operator- + binary add 2 graphs
+@param other the other graph
+@return  Graph the sum of the 2 graphs
+@throw invalid_argument if the graphs can't be added(not the same size)
+*/
+Graph operator+( Graph& other);
+//+=
+/*
+@brief operator- += add the other graph to the current graph
+@param other the other graph
+@return the current graph after the adding the other graph
+*/
+Graph operator+=( Graph& other);
+// unary +
+/*
+@brief operator- + unary does nothing
+*/
+Graph operator+(); //does nothing  
+//-
+/*
+@brief operator- - binary subtract 2 graphs
+@param other the other graph
+@return  Graph the subtract of the 2 graphs
+@throw invalid_argument if the graphs can't be subtracted(not the same size)
+*/
+Graph operator-( Graph& other);
+// -=
+/*
+@brief operator- -= subtract the other graph to the current graph
+@param other the other graph
+@return the current graph after the subtracting the other graph
+@throw invalid_argument if the graphs can't be subtracted(not the same size)
+*/
+Graph operator-=( Graph& other);
+// unary -
+/*
+@brief operator- - unary negate the graph
+@return  Graph the negate of the graph
+*/
+Graph operator-(); //negate the graph
+
+
+//comerison operators
+/*
+@brief operator- == compare 2 graphs
+@return  bool true if the graphs are equal, false otherwise
+*/
+bool operator==(const  Graph& other) const ;
+//!=
+/*
+@brief operator- != compare 2 graphs
+@return  bool true if the graphs are not equal, false otherwise
+*/
+bool operator!=( const Graph& other) const;
+//> 
+bool operator>(const Graph& other) const ;
+//<
+bool operator<(const Graph& other) const ;
+//>=
+bool operator>=(const Graph& other) const ;
+//<=
+bool operator<=(const  Graph& other) const ;
+
+
+//prefix increment ++i
+/*
+@brief operator- ++  prefix increment the graph
+*/
+Graph operator++(); 
+// postfix increment i++
+/*
+@brief operator- ++  postfix increment the graph
+*/
+Graph operator++(int); 
+//prefix decrement --i
+/*
+@brief operator- --  prefix decrement the graph
+*/
+Graph operator--();
+// postfix decrement i--
+/*
+@brief operator- --  postfix decrement the graph
+*/
+Graph operator--(int);
+
+//multip by scalar
+Graph operator*(int scalar);
+
+//multio by scalar and assign
+Graph operator*=(int scalar);
+
+//multip 2 graphs
+Graph operator*( Graph& other);
+
+//*=
+Graph operator*=( Graph& other); //multip 2 graphs
+
+//check if the graph can be multip by other graph
+
+//print the graph
+friend std::ostream& operator<<(std::ostream& os, const Graph& graph);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
 }
 
