@@ -47,6 +47,22 @@ namespace ariel
         adjMatrix = graph;
     }
 
+//  string Graph::printGraph() 
+//     {
+//         size_t numVertices = adjMatrix.size();
+//         ostringstream oss;
+//         for (size_t i = 0; i < numVertices; i++)
+//         {
+//             oss << "[";
+//             for (size_t j = 0; j < numVertices; j++)
+//             {
+//                 oss << getWeight(i, j) << (j < numVertices - 1 ? ", " : "");
+//             }
+//             oss << "]" << (i < numVertices- 1 ? "\n" : "");
+//         }
+//         return oss.str();
+//     }
+
     string Graph::printGraph()  
     {
         string str;

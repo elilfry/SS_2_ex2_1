@@ -12,6 +12,7 @@ elifrydman08@gmail.com
 #include <vector>
 #include <stdexcept>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
