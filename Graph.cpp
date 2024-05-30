@@ -5,6 +5,7 @@ elifrydman08@gmail.com
 
 #include "Graph.hpp"
 using namespace std;
+using std::string;
 
 namespace ariel
 {
@@ -29,10 +30,16 @@ namespace ariel
         }
 
         // Check if the graph has a self loop
+        
+
+
+
         for (size_t i = 0; i < graph.size(); i++)
         {
+                
             if (graph[i][i] != 0)
             {
+                cout << "Self-loop detected at node " << i << endl;  // Debugging output
                 throw invalid_argument(" Invalid_argument-The graph has a self loop.");
             }
         }
@@ -40,19 +47,31 @@ namespace ariel
         adjMatrix = graph;
     }
 
-    void Graph::printGraph()
+    string Graph::printGraph()  
     {
+        string str;
         size_t numVertices = adjMatrix.size();
 
         for (size_t i = 0; i < numVertices; i++)
         {
+            str = str + "[";
             for (size_t j = 0; j < numVertices; j++)
             {
                 cout << adjMatrix[i][j] << " ";
+                str = str + to_string(adjMatrix[i][j]);
+                if (j != numVertices - 1)
+                    str += ", ";
             }
             cout << endl;
+
+            str += "] \n";
         }
+        cout << "the str graph is: " << str << endl; // Debugging output
+        return str;
     }
+
+
+    
 
     /*
     this function check if the graph is connected
@@ -202,10 +221,9 @@ namespace ariel
         }
 
         std::vector<std::vector<int>> newGraph(g1hSize, std::vector<int>(g1hSize, 0));
-        size_t size = getSize();
-        for (size_t i = 0; i < size; i++)
+        for (size_t i = 0; i < g1hSize; i++)
         {
-            for (size_t j = 0; j < size; j++)
+            for (size_t j = 0; j < g1hSize; j++)
             {
                 newGraph[i][j] = adjMatrix[i][j] + other.adjMatrix[i][j];
             }
@@ -327,24 +345,7 @@ namespace ariel
 
     bool Graph::operator<(const Graph &other) const
     {
-        size_t g1hSize = getSize();
-        if (g1hSize != other.getSize())
-        {
-            throw invalid_argument(" Invalid_argument-The graphs are not the same size.");
-        }
-
-        size_t size = getSize();
-        for (size_t i = 0; i < size; i++)
-        {
-            for (size_t j = 0; j < size; j++)
-            {
-                if (adjMatrix[i][j] >= other.adjMatrix[i][j])
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
+       return other > *this;
     }
 
     bool Graph::operator<=(const Graph &other) const
@@ -354,8 +355,43 @@ namespace ariel
 
     bool Graph::operator>(const Graph &other) const
     {
-        return !(*this <= other);
+        size_t g1Size = getSize();
+        size_t otherSize = other.getSize();
+        if (g1Size != other.getSize())
+        {
+            return false;
+        }
+
+        for(size_t i = 0; i < g1Size - otherSize+1; i++)
+        {
+            for(size_t j = 0; j < g1Size - otherSize+1; j++)
+            {
+                bool flag = true;
+                for(size_t k = 0; k < otherSize; k++)
+                {
+                    for(size_t l = 0; l < otherSize; l++)
+                    {
+                        if(adjMatrix[i+k][j+l] != other.adjMatrix[k][l])
+                        {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(!flag)
+                    {
+                        break;
+                    }
+                }
+                if(flag)
+                {
+                    return true;
+                }
+                
+            }
+        }
+        return false;
     }
+
 
     bool Graph::operator>=(const Graph &other) const
     {
@@ -424,31 +460,37 @@ namespace ariel
     }
 
 ///////// multiplication /////////////////////
-
-    Graph Graph::operator*(Graph &other) // Multiply the two graphs together.
+Graph Graph::operator*( Graph & other)  // Multiply the weights of the two graphs
     {
-        size_t g1hSize = getSize();
-        if (g1hSize != other.getSize())
+        if (adjMatrix[0].size() != other.getSize())
         {
-            throw invalid_argument(" Invalid_argument-The graphs are not the same size.");
+            throw invalid_argument("The number of columns in the first matrix must be equal to the number of rows in the second matrix.");
         }
-
-        std::vector<std::vector<int>> newGraph(g1hSize, std::vector<int>(g1hSize, 0));
-        size_t size = getSize();
-        for (size_t i = 0; i < size; i++)
+        vector<vector<int>> newGraph;
+        for (size_t i = 0; i < adjMatrix.size(); i++)
         {
-            for (size_t j = 0; j < size; j++)
+            vector<int> rowVec;
+            for (size_t j = 0; j < other.getSize(); j++)
             {
-                for (size_t k = 0; k < size; k++)
+                int sum = 0;
+                for (size_t k = 0; k < adjMatrix[i].size(); k++)
                 {
-                    newGraph[i][j] += adjMatrix[i][k] * other.adjMatrix[k][j];
+                    sum += adjMatrix[i][k] * other.adjMatrix[k][j];
                 }
+                rowVec.push_back(sum);
             }
+            newGraph.push_back(rowVec);
         }
-        Graph g;
-        g.loadGraph(newGraph);
-        return g;
+        for (size_t i = 0; i < newGraph.size(); i++)
+        {
+            newGraph[i][i] = 0;
+        }
+        Graph newG;
+        newG.loadGraph(newGraph);
+        return newG;
     }
+
+    
 
     Graph Graph::operator*=(Graph &other) 
     {

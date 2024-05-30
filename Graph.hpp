@@ -11,6 +11,9 @@ elifrydman08@gmail.com
 #include <iostream>
 #include <vector>
 #include <stdexcept>
+#include <string>
+
+using namespace std;
 
 
 namespace ariel{
@@ -24,7 +27,6 @@ class Graph {
 /*
 the function load the graph to the object
 */
-
 void loadGraph(const std::vector<std::vector<int>>& graph);
 
 /*
@@ -41,7 +43,7 @@ size_t getSize()  const;
 
 the function print the graph
 */
-void printGraph();
+string printGraph();
 
 size_t getNumberOfEdges();
 
@@ -59,8 +61,7 @@ int getWeight(size_t src, size_t dest);
  
 
 
-//function to check if 2 graphs can be added or subtracted
-bool canAddOrSubtract(Graph& other);
+
 
 // Aritmetic operators
 /*
@@ -119,8 +120,16 @@ bool operator==(const  Graph& other) const ;
 */
 bool operator!=( const Graph& other) const;
 //> 
+/*
+@brief operator- > compare 2 graphs and check if the graph is greater then the other graph - other is a subgraph of the graph
+@return  bool true if the graph is greater then the other graph-other is a subgraph of the graph, false otherwise
+*/
 bool operator>(const Graph& other) const ;
 //<
+/*
+@brief operator- < compare 2 graphs and check if the graph is less then the other graph - graph is a subgraph of the other
+@return  bool true if the graph is less then the other graph-graph is a subgraph of the other, false otherwise
+*/
 bool operator<(const Graph& other) const ;
 //>=
 bool operator>=(const Graph& other) const ;
