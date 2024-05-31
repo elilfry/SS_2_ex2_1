@@ -192,6 +192,31 @@ TEST_CASE("Test graph multiplication")
 }
 
 
+TEST_CASE("Test <=")
+{
+    ariel::Graph g1;
+    // 5x5 matrix that represents a connected graph.
+    vector<vector<int>> graph2 = {
+        {0, 1, 0, 0, 1},
+        {1, 0, 1, 0, 0},
+        {0, 1, 0, 1, 0},
+        {0, 0, 1, 0, 1},
+        {1, 0, 0, 1, 0}};
+    g1.loadGraph(graph2); 
+
+    ariel::Graph g2;
+    // 5x5 matrix that represents a connected graph.
+    vector<vector<int>> graph3 = {
+        {0, 1, 0, 0, 1},
+        {1, 0, 1, 0, 0},
+        {0, 1, 0, 1, 0},
+        {0, 0, 1, 0, 1},
+        {1, 0, 0, 1, 0}};
+    g2.loadGraph(graph3); 
+
+    CHECK(g1 <= g2);
+}
+
 // TEST_CASE("Test graph multiplication with different dimensions")
 // {
 //     ariel::Graph g1;
