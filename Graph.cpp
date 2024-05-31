@@ -70,23 +70,37 @@ namespace ariel
 
         for (size_t i = 0; i < numVertices; i++)
         {
-            str = str + "[";
+            str += "[";
             for (size_t j = 0; j < numVertices; j++)
             {
-                cout << adjMatrix[i][j] << " ";
-                str = str + to_string(adjMatrix[i][j]);
+                //cout << adjMatrix[i][j] << " ";
+                str  += to_string(adjMatrix[i][j]);
                 if (j != numVertices - 1)
                     str += ", ";
             }
-            cout << endl;
+            //cout << endl;
 
-            str += "] \n";
+            str += "]";
+            if (i != numVertices - 1)
+                str += "\n";
         }
-        cout << "the str graph is: " << str << endl; // Debugging output
+       // cout << "the str graph is: " << str << endl; // Debugging output
         return str;
     }
 
-
+// string Graph::printGraph() {
+//     string str = "";
+//     for (const auto& row : adjMatrix) {
+//         str += "[";
+//         for (const auto& value : row) {
+//             str += to_string(value) + ", ";
+//         }
+//         str = str.substr(0, str.size()-2); // Remove the last comma and space
+//         str += "], ";
+//     }
+//     str = str.substr(0, str.size()-2); // Remove the last comma and space
+//     return str;
+// }
     
 
     /*
@@ -233,7 +247,7 @@ namespace ariel
         size_t g1hSize = getSize();
         if (g1hSize != other.getSize())
         {
-            throw invalid_argument(" Invalid_argument-The graphs are not the same size.");
+            throw invalid_argument("Invalid_argument-The graphs are not the same size");
         }
 
         std::vector<std::vector<int>> newGraph(g1hSize, std::vector<int>(g1hSize, 0));
@@ -482,6 +496,11 @@ Graph Graph::operator*( Graph & other)  // Multiply the weights of the two graph
         {
             throw invalid_argument("The number of columns in the first matrix must be equal to the number of rows in the second matrix.");
         }
+
+            if (adjMatrix.size() != adjMatrix[0].size() || other.adjMatrix.size() != other.adjMatrix[0].size()) 
+            {
+                throw invalid_argument("The matrices must be square.");
+            }
         vector<vector<int>> newGraph;
         for (size_t i = 0; i < adjMatrix.size(); i++)
         {
